@@ -18,14 +18,15 @@ spec:
       format:
         data:
           media_type: video/smpte291
-
+          grain_rate: "60"
+           
   # Media output specifications
   outputs:
     ancillary:
       format:
         data:
           media_type: video/smpte291
-
+          grain_rate: "60"
   
   # Resource requirements for the media function
   requirements:

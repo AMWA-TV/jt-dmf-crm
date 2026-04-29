@@ -19,15 +19,15 @@ spec:
           media_type: video/v210
           frame_width: 1920
           frame_height: 1080
-          frame_rate: "25/1"
+          frame_rate: "25"
+            
     secondary-feed:
       format:
         video:
           media_type: video/v210
           frame_width: 1920
           frame_height: 1080
-          frame_rate: "25/1"
-
+          frame_rate: "25"
   # Media output specifications
   outputs:
     processed-output:
@@ -36,9 +36,8 @@ spec:
           media_type: video/v210
           frame_width: 1920
           frame_height: 1080
-          frame_rate: "25/1"
-
-  
+          frame_rate: "25"
+           
   # Resource requirements for the media function
   requirements:
     compute:
