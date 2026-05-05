@@ -1,0 +1,136 @@
+apiVersion: mxl.media.fn/v1alpha1
+kind: MxlMediaFunctionParameters
+metadata:
+  name: writer-1080p25-v210
+  label:
+    app: media-processing-3G
+    function: video-audio-writer
+  namespace: media
+spec:
+  role: writer
+  flow:
+    label: "studio-cam-1"
+
+  # Media input specifications
+  inputs:
+    primary-feed:
+      format:
+        video:
+          media_type: video/v210
+          frame_width: 1920
+          frame_height: 1080
+          frame_rate: "25"
+      
+      format:
+        audio:
+          media_type: audio/float32
+          sample_rate: 48000
+          channel_count: 2
+            
+    secondary-feed:
+      format:
+        video:
+          media_type: video/v210
+          frame_width: 1920
+          frame_height: 1080
+          frame_rate: "25"
+  # Media output specifications
+  outputs:
+    processed-output:
+      format:
+        video:
+          media_type: video/v210
+          frame_width: 1920
+          frame_height: 1080
+          frame_rate: "25"
+      format:
+        audio:
+          media_type: audio/float32
+          sample_rate: 48000
+          channel_count: 1
+           
+  # Resource requirements for the media function
+  requirements:
+    compute:
+      cpu: "2000m"                  # Millicores (m): A fractional part of a core. 1 CPU is equal to 1000m. 500m: Half a core (0.5 CPU).100m: One-tenth of a core (0.1 CPU).
+      cpu_class: "performance"      # driver-defined tier (e.g., latency|balanced|performance)
+      memory: "4Gi"                 # Requests and limits in units as expressed in Kubernetes (e.g., Mi, Gi)
+
+
+  # NEW: host platform capabilities (inventory/hints for driver-side placement logic)
+  reference_platform:
+    host_capabilities:
+      cpu:
+        generation: "Skylake"  # CPU microarchitecture generation (e.g., Skylake, Ice Lake, etc.)
+        # Selected CPU features discovered via NFD or cpuid
+        features:
+          - AVX512F
+          - AVX512DQ
+          - SGX
+  
+      network:
+        - name: eth0
+          bandwidth:
+            input:
+              min: 1500Mb/s
+              max: 3000Mb/s
+            output:
+              min: 1000Mb/s
+              max: 2500Mb/s
+          features: 
+            - jumbo_frames
+            - rdma
+
+        - name: eth1
+          bandwidth:
+            input:
+              min: 1000Mb/s
+              max: 2000Mb/s
+            output:
+              min: 500Mb/s
+              max: 1500Mb/s
+          features:
+            - vlan_support
+            - link_aggregation
+
+
+      gpu:
+        - name: gpu_0
+          generation: Kepler
+          memory: 
+            min: 16GB
+            max: 32GB
+          compute_units: # some arbitrary unit of compute capability
+            min: 3840
+            max: 5120
+          capabilities: # driver-specific GPU features (e.g., CUDA compute capability, or a custom set of flags)
+            - tensor_operations
+            - high_precision_compute
+
+      memory:
+        - type: ram
+          generation: DDR4
+          media_workload:
+            size: 16GB
+            throughput:
+              read: 40GB/s
+              write: 35GB/s
+
+        - type: cache
+          level: L3
+          media_workload:
+            size: 128MB
+            throughput:
+              read: 200GB/s
+              write: 150GB/s
+
+      storage:
+        - name: nvme_0
+          type: nvme # or nvme, ssd, hdd, spinning_disk, etc.
+          media_workload:
+            size: 4MB
+            throughput:
+              read: 2000MB/s
+              write: 1800MB/s
+            latency: 100us  # average access latency
+            iops: 100000    # input/output operations per second
