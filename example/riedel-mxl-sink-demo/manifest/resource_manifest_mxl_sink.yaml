@@ -1,0 +1,90 @@
+apiVersion: mxl.media.fn/v1alpha1
+kind: MxlMediaFunctionParameters
+metadata:
+  name: mxl-gst-sink-1080p30-v210
+  label:
+    app: mxl-gst-sink
+    function: video-sink
+    args:  # All arguments that are relevant for the media function, and can be used for resources utilization should be included here.
+      - resolution: "1080p"
+      - frame_rate: "30fps"
+      - format: "v210"
+  namespace: media
+spec:
+  role: video-sink
+  flow:
+    label: "multiviewer-1"
+
+  # Media input specifications
+  inputs:
+    - feed-1:
+      format:
+        video:
+          media_type: video/v210
+          frame_width: 1920
+          frame_height: 1080
+          frame_rate: "30000/1001"
+    - feed-2:
+      format:
+        video:
+          media_type: video/v210
+          frame_width: 1920
+          frame_height: 1080
+          frame_rate: "30000/1001"
+
+  # Media output specifications
+  outputs:
+    processed-output:
+      format:
+        video:
+          media_type: video/v210
+          frame_width: 1280
+          frame_height: 480
+          frame_rate: "30000/1001"
+
+  # Resource requirements for the media function
+  # Similar to the host capabilities, the value in the requirement match the unit used in the reference platform,
+  # but here it represents the actual resource request/limit for this media function.
+  # Uses Kubernetes-like resource specification for consistency, but can be extended with custom fields as needed.
+  requirements:
+    cpu:
+      cpu: "600m"           # Millicores (m): A fractional part of a core. 1 CPU is equal to 1000m. 500m: Half a core (0.5 CPU).100m: One-tenth of a core (0.1 CPU
+      features:
+        - null
+
+    memory:
+      - type: ram
+        size: "1Gi"         # Requests and limits in units as expressed in Kubernetes (e.g., Mi, Gi)
+        throughput:
+          read: "1500MBi"
+          write: "1500MBi"
+          total: "3Gi"      # Total memory bandwidth required (if applicable)
+
+
+  # host platform capabilities (inventory/hints for driver-side placement logic)
+  reference_platform:
+    host_capabilities:
+      cpu:
+        numa_nodes: 2
+        number_of_cores: 16
+        base_frequency: "2.8GHz"
+        generation: "Emerald Rapids"  # CPU microarchitecture generation (e.g., Skylake, Ice Lake, etc.)
+        # Selected CPU features discovered via NFD or cpuid
+        features:
+          - AVX512F
+          - AVX512DQ
+          - SGX
+
+      memory:
+        - node: 0
+          type: ram
+          generation: DDR5
+          size: 128Gi
+          throughput:
+            total: 122Gi
+        - node: 1
+          type: ram
+          generation: DDR5
+          size: 128Gi
+          throughput:
+            total: 121Gi

@@ -1,0 +1,44 @@
+apiVersion: v1
+items:
+- apiVersion: resource.k8s.io/v1
+  kind: ResourceSlice
+  metadata:
+    creationTimestamp: "2026-05-15T10:38:06Z"
+    generateName: 00000-mem.example.com-dra-memory-driver-cluster-worker-
+    generation: 1
+    name: 00000-mem.example.com-dra-memory-driver-cluster-worker-jgchw
+    ownerReferences:
+    - apiVersion: v1
+      controller: true
+      kind: Node
+      name: dra-memory-driver-cluster-worker
+      uid: 6271d5f1-ce8e-4bf0-ad6e-18a544f110f9
+    resourceVersion: "38388"
+    uid: 30abf292-f0ad-4361-b8e7-839864983811
+  spec:
+    devices:
+    - allowMultipleAllocations: true
+      attributes:
+        numa:
+          int: 0
+      capacity:
+        mem:
+          value: 121Gi
+      name: numa-0
+    - allowMultipleAllocations: true
+      attributes:
+        numa:
+          int: 1
+      capacity:
+        mem:
+          value: 122Gi
+      name: numa-1
+    driver: mem.example.com
+    nodeName: dra-memory-driver-cluster-worker
+    pool:
+      generation: 1
+      name: dra-memory-driver-cluster-worker
+      resourceSliceCount: 1
+kind: List
+metadata:
+  resourceVersion: ""

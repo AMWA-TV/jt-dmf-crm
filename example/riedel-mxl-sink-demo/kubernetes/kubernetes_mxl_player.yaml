@@ -1,0 +1,66 @@
+# Kubernetes Dynamic Resource Allocation (DRA) Configuration
+# Based on requirements from mxl-gst-sink-1080p30-v210
+# ResourceClaim
+# DRA resource claim
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: media
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mxl-file-player-1
+  namespace: media
+spec:
+  containers:
+  - name: mxl-file-player-container
+    image: mxldemo:v1
+    imagePullPolicy: Never
+    volumeMounts:
+        - name: mxl-domain
+          mountPath: /dev/shm/mxl
+        - name: config-data
+          mountPath: /tmp/data
+    command: ["/usr/bin/mxl-gst-testsrc"]
+    args: ["-v", "/tmp/data/v210_flow.json", "--domain", "/dev/shm/mxl"]
+    #command: ["bash", "-c"]
+    #args: ["export; trap 'exit 0' TERM; sleep 9999 & wait"]
+  volumes:
+    - name: mxl-domain
+      hostPath:
+        path: /dev/shm/mxl # directory location on host
+    - name: config-data
+      hostPath:
+        path: /root/data # directory location on host
+
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mxl-file-player-2
+  namespace: media
+spec:
+  containers:
+  - name: mxl-file-player-container
+    image: mxldemo:v1
+    imagePullPolicy: Never
+    volumeMounts:
+        - name: mxl-domain
+          mountPath: /dev/shm/mxl
+        - name: config-data
+          mountPath: /tmp/data
+    command: ["/usr/bin/mxl-gst-testsrc"]
+    args: ["-v", "/tmp/data/v210_flow_01.json", "--domain", "/dev/shm/mxl"]
+    #command: ["bash", "-c"]
+    #args: ["export; trap 'exit 0' TERM; sleep 9999 & wait"]
+  volumes:
+    - name: mxl-domain
+      hostPath:
+        path: /dev/shm/mxl # directory location on host
+    - name: config-data
+      hostPath:
+        path: /root/data # directory location on host
