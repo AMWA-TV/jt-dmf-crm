@@ -13,14 +13,14 @@ spec:
 
   # Media input specifications
   inputs:
-    primary-feed:
+    primary-feed-video:
       format:
         video:
           media_type: video/v210
           frame_width: 1920
           frame_height: 1080
           frame_rate: "25"
-      
+    primary-feed-audio:
       format:
         audio:
           media_type: audio/float32
@@ -36,13 +36,14 @@ spec:
           frame_rate: "25"
   # Media output specifications
   outputs:
-    processed-output:
+    processed-output-video:
       format:
         video:
           media_type: video/v210
           frame_width: 1920
           frame_height: 1080
           frame_rate: "25"
+    processed-output-audio:
       format:
         audio:
           media_type: audio/float32
@@ -55,7 +56,6 @@ spec:
       cpu: "2000m"                  # Millicores (m): A fractional part of a core. 1 CPU is equal to 1000m. 500m: Half a core (0.5 CPU).100m: One-tenth of a core (0.1 CPU).
       cpu_class: "performance"      # driver-defined tier (e.g., latency|balanced|performance)
       memory: "4Gi"                 # Requests and limits in units as expressed in Kubernetes (e.g., Mi, Gi)
-
 
   # NEW: host platform capabilities (inventory/hints for driver-side placement logic)
   reference_platform:
