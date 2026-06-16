@@ -72,7 +72,9 @@ spec:
 
       network:
         - name: eth0
-          bandwidth: 12.5GB/s
+          bandwidth:
+            input: 12.5GB/s
+            output: 12.5GB/s
           features:
             - jumbo_frames
             - rdma
