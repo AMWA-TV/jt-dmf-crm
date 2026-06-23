@@ -15,6 +15,8 @@ In short, the goal is to show how benchmark and profiling data can be turned int
 
 This document describes how to build the MXL container image, prepare the benchmarking environment, deploy the demo on a kind cluster with the memory-throughput DRA driver, and profile the running application.
 
+*** Please note that you need to run this example on Kubernetes v1.35 or greater.
+
 ## 1. Benchmark the Host Machine
 
 ### 1.1 CPU Information
@@ -65,6 +67,7 @@ docker build --network=host -t mxldemo:v1 -f examples/Dockerfile .
 ```
 
 ## 3. Prepare the kind Cluster and DRA Driver
+
 
 ### 3.1 Clone the DRA Driver Repository
 
