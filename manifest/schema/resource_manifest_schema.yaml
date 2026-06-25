@@ -33,10 +33,6 @@ properties:
             type: string
           function:
             type: string
-          args:
-            type: array
-            items:
-              type: object
       namespace:
         type: string
         description: Kubernetes namespace
@@ -123,6 +119,10 @@ properties:
                         type: integer
                       channels:
                         type: integer
+      args:
+        type: array
+        items:
+          type: object
 
       requirements:
         type: object
