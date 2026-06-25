@@ -5,10 +5,6 @@ metadata:
   label:
     app: media-processing-3G
     function: video-writer
-    args:  # All arguments that are relevant for the media function, and can be used for resources utilization should be included here.
-      - resolution: "1080p"
-      - frame_rate: "25fps"
-      - format: "v210"
   namespace: media
 spec:
   role: video-writer
@@ -41,6 +37,11 @@ spec:
           frame_width: 1920
           frame_height: 1080
           frame_rate: "25"
+
+  args:  # All arguments that are relevant for the media function, and can be used for resources utilization should be included here.
+    - resolution: "1080p"
+    - frame_rate: "25fps"
+    - format: "v210"
 
   # Resource requirements for the media function
   requirements:

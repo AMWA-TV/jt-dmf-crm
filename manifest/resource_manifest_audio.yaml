@@ -5,10 +5,6 @@ metadata:
   label:
     app: media-processing-audio
     function: audio-writer
-    args:  # All arguments that are relevant for the media function, and can be used for resources utilization should be included here.
-      - media_type: "float32"
-      - sample_rate: "48kHz"
-      - channel_count: "2"
   namespace: media
 spec:
   role: audio-writer
@@ -40,6 +36,11 @@ spec:
           media_type: audio/float32
           sample_rate: 48000
           channel_count: 2
+
+  args:  # All arguments that are relevant for the media function, and can be used for resources utilization should be included here.
+    - media_type: "float32"
+    - sample_rate: "48kHz"
+    - channel_count: "2"
 
   # Resource requirements for the media function
   requirements:

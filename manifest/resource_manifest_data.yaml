@@ -5,9 +5,6 @@ metadata:
   label:
     app: media-processing-anc
     function: anc-writer
-    args:  # All arguments that are relevant for the media function, and can be used for resources utilization should be included here.
-      - media_type: "smpte291"
-      - grain_rate: "60"
   namespace: media
 spec:
   role: anc-writer
@@ -31,6 +28,10 @@ spec:
           media_type: video/smpte291
           grain_rate: "60"
 
+  args:  # All arguments that are relevant for the media function, and can be used for resources utilization should be included here.
+    - media_type: "smpte291"
+    - grain_rate: "60"
+
   # Resource requirements for the media function
   requirements:
     cpu:
@@ -45,7 +46,6 @@ spec:
           read: "200MBi"
           write: "200MBi"
           total: "400MBi"       # Total memory bandwidth required (if applicable)
-
 
   # host platform capabilities
   reference_platform:

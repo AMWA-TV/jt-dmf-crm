@@ -5,10 +5,6 @@ metadata:
   label:
     app: mxl-gst-sink
     function: video-sink
-    args:  # All arguments that are relevant for the media function, and can be used for resources utilization should be included here.
-      - resolution: "1080p"
-      - frame_rate: "30fps"
-      - format: "v210"
   namespace: media
 spec:
   role: video-sink
@@ -41,6 +37,11 @@ spec:
           frame_width: 1280
           frame_height: 480
           frame_rate: "30000/1001"
+
+  args:  # All arguments that are relevant for the media function, and can be used for resources utilization should be included here.
+    - resolution: "1080p"
+    - frame_rate: "30fps"
+    - format: "v210"
 
   # Resource requirements for the media function
   # Similar to the host capabilities, the value in the requirement match the unit used in the reference platform,
