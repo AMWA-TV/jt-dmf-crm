@@ -136,12 +136,6 @@ Examples:
         help='Print detailed manifest summary after validation'
     )
 
-    parser.add_argument(
-        '--no-color',
-        action='store_true',
-        help='Disable colored output'
-    )
-
     args = parser.parse_args()
 
     # Determine schema path
