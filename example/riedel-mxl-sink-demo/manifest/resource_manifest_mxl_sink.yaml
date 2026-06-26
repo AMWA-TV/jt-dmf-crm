@@ -55,7 +55,7 @@ spec:
 
     memory:
       - type: ram
-        size: "1Gi"         # Requests and limits in units as expressed in Kubernetes (e.g., Mi, Gi)
+        size: "2Gi"         # Requests and limits in units as expressed in Kubernetes (e.g., Mi, Gi)
         throughput:
           read: "1500MBi"
           write: "1500MBi"

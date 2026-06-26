@@ -59,10 +59,10 @@ spec:
       resources:
         limits:
           cpu: "1"
-          memory: "1Gi"
+          memory: "2Gi"
         requests:
           cpu: "600m"
-          memory: "1Gi"
+          memory: "2Gi"
       resourceClaims:
         - name: mxl-gst-sink-1080p30-v210-memory-bandwidth-claim
           resourceClaimTemplateName: mxl-gst-sink-1080p30-v210-memory-bandwidth-claim-template
