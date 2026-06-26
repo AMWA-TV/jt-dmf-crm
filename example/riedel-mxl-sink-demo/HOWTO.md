@@ -67,8 +67,10 @@ cd mlc/Linux
 Clone the repository and build the demo image:
 
 ```bash
-git clone --recursive https://github.com/kubernetes-sigs/dra-example-driver.git
-cd jt-dmf-crm/lib/mxl
+git clone --recursive https://github.com/AMWA-TV/jt-dmf-crm.git
+cd jt-dmf-crm
+## Ensure to checkout the right branch here for the demo.
+cd lib/mxl
 docker build --network=host -t mxldemo:v1 -f examples/Dockerfile .
 ```
 
