@@ -7,21 +7,21 @@ metadata:
     function: video-writer
   namespace: media
 spec:
-  role: writer
+  role: video-writer
   flow:
     label: "studio-cam-1"
 
   # Media input specifications
   inputs:
-    primary-feed:
+    - primary-feed:
       format:
         video:
           media_type: video/v210
           frame_width: 1920
           frame_height: 1080
           frame_rate: "25"
-            
-    secondary-feed:
+
+    - secondary-feed:
       format:
         video:
           media_type: video/v210
@@ -37,89 +37,76 @@ spec:
           frame_width: 1920
           frame_height: 1080
           frame_rate: "25"
-           
+
+  args:  # All arguments that are relevant for the media function, and can be used for resources utilization should be included here.
+    - resolution: "1080p"
+    - frame_rate: "25fps"
+    - format: "v210"
+
   # Resource requirements for the media function
   requirements:
-    compute:
-      cpu: "2000m"                  # Millicores (m): A fractional part of a core. 1 CPU is equal to 1000m. 500m: Half a core (0.5 CPU).100m: One-tenth of a core (0.1 CPU).
-      cpu_class: "performance"      # driver-defined tier (e.g., latency|balanced|performance)
-      memory: "4Gi"                 # Requests and limits in units as expressed in Kubernetes (e.g., Mi, Gi)
+    cpu:
+      cpu: "2000m"              # Millicores (m): A fractional part of a core. 1 CPU is equal to 1000m. 500m: Half a core (0.5 CPU).100m: One-tenth of a core (0.1 CPU
+      features:
+        - null
+
+    memory:
+      - type: ram
+        size: "4Gi"             # Requests and limits in units as expressed in Kubernetes (e.g., Mi, Gi)
+        throughput:
+          read: "2000MBi"
+          write: "4000MBi"
+          total: "6Gi"          # Total memory bandwidth required (if applicable)
 
 
-  # NEW: host platform capabilities (inventory/hints for driver-side placement logic)
-  reference_platform:
+  # host platform capabilities
     host_capabilities:
       cpu:
-        generation: "Skylake"  # CPU microarchitecture generation (e.g., Skylake, Ice Lake, etc.)
+        numa_nodes: 2
+        number_of_cores: 16
+        base_frequency: "2.8GHz"
+        generation: "Emerald Rapids"  # CPU microarchitecture generation (e.g., Skylake, Ice Lake, etc.)
         # Selected CPU features discovered via NFD or cpuid
         features:
           - AVX512F
           - AVX512DQ
           - SGX
-  
+
       network:
         - name: eth0
           bandwidth:
-            input:
-              min: 1500Mb/s
-              max: 3000Mb/s
-            output:
-              min: 1000Mb/s
-              max: 2500Mb/s
-          features: 
+            input: 12.5GB/s
+            output: 12.5GB/s
+          features:
             - jumbo_frames
             - rdma
 
-        - name: eth1
-          bandwidth:
-            input:
-              min: 1000Mb/s
-              max: 2000Mb/s
-            output:
-              min: 500Mb/s
-              max: 1500Mb/s
-          features:
-            - vlan_support
-            - link_aggregation
-
-
       gpu:
         - name: gpu_0
-          generation: Kepler
-          memory: 
-            min: 16GB
-            max: 32GB
-          compute_units: # some arbitrary unit of compute capability
-            min: 3840
-            max: 5120
+          generation: Ampere
+          memory: 16Gi
+          compute_units: 1000m # some arbitrary unit of compute capability
           capabilities: # driver-specific GPU features (e.g., CUDA compute capability, or a custom set of flags)
             - tensor_operations
             - high_precision_compute
 
       memory:
-        - type: ram
-          generation: DDR4
-          media_workload:
-            size: 16GB
-            throughput:
-              read: 40GB/s
-              write: 35GB/s
-
-        - type: cache
-          level: L3
-          media_workload:
-            size: 128MB
-            throughput:
-              read: 200GB/s
-              write: 150GB/s
+        - node: 0
+          type: ram
+          generation: DDR5
+          size: 128Gi
+          throughput:
+            total: 125Gi
+        - node: 1
+          type: ram
+          generation: DDR5
+          size: 128Gi
+          throughput:
+            total: 125Gi
 
       storage:
         - name: nvme_0
           type: nvme # or nvme, ssd, hdd, spinning_disk, etc.
-          media_workload:
-            size: 4MB
-            throughput:
-              read: 2000MB/s
-              write: 1800MB/s
-            latency: 100us  # average access latency
-            iops: 100000    # input/output operations per second
+          throughput:
+            read: 2000M
+            write: 1800M
