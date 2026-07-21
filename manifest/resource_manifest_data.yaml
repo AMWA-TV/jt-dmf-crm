@@ -47,6 +47,24 @@ spec:
           write: "200MBi"
           total: "400MBi"       # Total memory bandwidth required (if applicable)
 
+    network:
+      # video/smpte291 @ grain_rate 60
+      # MXL data payload size for smpte291 is fixed at 4096 bytes per grain.
+      # media_bytes_per_second = 4096 * 60 = 245,760 B/s
+      # packets_per_second = ceil(4096 / (mtu - 44)) * 60
+      # wire_bytes_per_second = media_bytes_per_second + packets_per_second * 82
+      # Using mtu = 1400 => wire_bytes_per_second = 265,440 B/s (~0.27MB/s)
+      inputs:
+        ancillary:
+          transport:
+            selected: "RDMA"      # Possible alternatives: EFA, TCP
+          bandwidth: "0.27MB/s"   # One ancillary input stream on wire (with overhead)
+      outputs:
+        ancillary:
+          transport:
+            selected: "RDMA"      # Possible alternatives: EFA, TCP
+          bandwidth: "0.27MB/s"   # One ancillary output stream on wire (with overhead)
+
   # host platform capabilities
   reference_platform:
     host_capabilities:

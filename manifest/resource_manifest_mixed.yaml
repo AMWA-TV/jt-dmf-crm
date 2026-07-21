@@ -57,6 +57,31 @@ spec:
       cpu_class: "performance"      # driver-defined tier (e.g., latency|balanced|performance)
       memory: "4Gi"                 # Requests and limits in units as expressed in Kubernetes (e.g., Mi, Gi)
 
+    network:
+      # Per-stream network requirements. No aggregate totals are modeled here.
+      inputs:
+        primary-feed-video:
+          transport:
+            selected: "RDMA"       # Possible alternatives: EFA, TCP
+          bandwidth: "0.14660GB/S" # One v210 input stream on wire (with overhead)
+        primary-feed-audio:
+          transport:
+            selected: "RDMA"       # Possible alternatives: EFA, TCP
+          bandwidth: "0.00041GB/S" # One audio/float32 48kHz 2ch input stream on wire (with overhead)
+        secondary-feed:
+          transport:
+            selected: "RDMA"       # Possible alternatives: EFA, TCP
+          bandwidth: "0.14660GB/S" # One v210 input stream on wire (with overhead)
+      outputs:
+        processed-output-video:
+          transport:
+            selected: "RDMA"       # Possible alternatives: EFA, TCP
+          bandwidth: "0.14660GB/S" # One v210 output stream on wire (with overhead)
+        processed-output-audio:
+          transport:
+            selected: "RDMA"       # Possible alternatives: EFA, TCP
+          bandwidth: "0.00021GB/S" # One audio/float32 48kHz 1ch output stream on wire (with overhead)
+
   # NEW: host platform capabilities (inventory/hints for driver-side placement logic)
   reference_platform:
     host_capabilities:

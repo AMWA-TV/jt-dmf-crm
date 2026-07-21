@@ -57,6 +57,29 @@ spec:
           write: "400MBi"
           total: "800MBi"   # Total memory bandwidth required (if applicable)
 
+    network:
+      # audio/float32 @ 48kHz, 2ch
+      # media_bytes_per_second = sample_rate * channel_count * bytes_per_sample
+      #                        = 48000 * 2 * 4 = 384,000 B/s
+      # Assumed packetization: ptime = 10ms
+      # packets_per_second = ceil(bytes_per_packet / (mtu - 44)) * (1 / ptime)
+      # wire_bytes_per_second = media_bytes_per_second + packets_per_second * 82
+      # Using mtu = 1400 => wire_bytes_per_second = 408,600 B/s (~0.41MB/s)
+      inputs:
+        primary-feed:
+          transport:
+            selected: "RDMA"       # Possible alternatives: EFA, TCP
+          bandwidth: "0.41MB/s"    # One audio input stream on wire (with overhead)
+        secondary-feed:
+          transport:
+            selected: "RDMA"       # Possible alternatives: EFA, TCP
+          bandwidth: "0.41MB/s"    # One audio input stream on wire (with overhead)
+      outputs:
+        processed-output:
+          transport:
+            selected: "RDMA"       # Possible alternatives: EFA, TCP
+          bandwidth: "0.41MB/s"    # One processed audio output stream on wire (with overhead)
+
 
   # host platform capabilities
     host_capabilities:
@@ -74,8 +97,8 @@ spec:
       network:
         - name: eth0
           bandwidth:
-            input: 12.5GB/s
-            output: 12.5GB/s
+            input: 12.5GB/S
+            output: 12.5GB/S
           features:
             - jumbo_frames
             - rdma
