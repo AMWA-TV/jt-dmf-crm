@@ -58,13 +58,6 @@ spec:
           total: "800MBi"   # Total memory bandwidth required (if applicable)
 
     network:
-      # audio/float32 @ 48kHz, 2ch
-      # media_bytes_per_second = sample_rate * channel_count * bytes_per_sample
-      #                        = 48000 * 2 * 4 = 384,000 B/s
-      # Assumed packetization: ptime = 10ms
-      # packets_per_second = ceil(bytes_per_packet / (mtu - 44)) * (1 / ptime)
-      # wire_bytes_per_second = media_bytes_per_second + packets_per_second * 82
-      # Using mtu = 1400 => wire_bytes_per_second = 408,600 B/s (~0.41MB/s)
       inputs:
         primary-feed:
           transport:

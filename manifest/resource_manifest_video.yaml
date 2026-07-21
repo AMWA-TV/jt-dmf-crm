@@ -59,12 +59,6 @@ spec:
           total: "6Gi"          # Total memory bandwidth required (if applicable)
 
     network:
-      # v210 @ 1920x1080p25
-      # bytes_per_frame = (ceil(1920 / 48) * 128) * 1080 = 5,529,600 bytes
-      # media_bytes_per_second = 5,529,600 * 25 = 138,240,000 B/s
-      # packets_per_second = ceil(bytes_per_frame / (mtu - 44)) * frame_rate
-      # wire_bytes_per_second = media_bytes_per_second + packets_per_second * 82
-      # Using mtu = 1400 => wire_bytes_per_second = 146,599,900 B/s
       inputs:
         primary-feed:
           transport:
