@@ -20,7 +20,7 @@
 
 set -euo pipefail
 
-REPO_SLUG="${GITHUB_REPOSITORY:-AMWA-TV/in-template}"
+REPO_SLUG="${GITHUB_REPOSITORY:-sviengkhou/jt-dmf-crm}"
 # Use BUILD_REF if the workflow set one (covers dispatch with an input ref),
 # else the ref the run was triggered on, else fall back to main.
 REF="${BUILD_REF:-${GITHUB_REF_NAME:-main}}"

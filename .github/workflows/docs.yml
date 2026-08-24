@@ -25,7 +25,7 @@ jobs:
       # Target on the AMWA web server. During zensical evaluation we publish
       # under /new/ so we don't overwrite the current production site.
       SPEC_SERVER: specs.amwa.tv
-      SITE_NAME: in-template
+      SITE_NAME: jt-dmf-crm
     steps:
       # Always check out the ref that triggered the run (or main, for dispatch)
       # so we get the current workflow infrastructure (.github/scripts, etc.).

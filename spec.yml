@@ -1,10 +1,10 @@
-amwa_id: IN-TEMPLATE
-url: https://specs.amwa.tv/in-template
-name: Template for AMWA Increments
+amwa_id: IN-JT-DMF-CRM
+url: https://specs.amwa.tv/jt-dmf-crm
+name: JT-DMF Compute Resource Management
 status: Work In Progress
-repo_name: in-template
+repo_name: jt-dmf-crm
 alt_repo_name:
-repo_url: https://github.com/AMWA-TV/in-template
+repo_url: https://github.com/sviengkhou/jt-dmf-crm
 releases:
 default_branch: main
 show_in_index: false

@@ -1,18 +1,27 @@
-# AMWA IN-TEMPLATE: Template for AMWA Increments
+# JT-DMF Compute Resource Management Overview
 
+## Purpose
 
-_(c) AMWA 2021, CC Attribution-NoDerivatives 4.0 International (CC BY-ND 4.0)_
+This repository captures the JT-DMF Compute Resource Management (CRM) workstream and aligns its top-level structure with AMWA Increment conventions.
 
-## Introduction
+## Scope
 
-Write the text of this Increment using (GitHub Flavoured) Markdown documents where possible.
+- Documentation source for Increment-style publishing lives in this docs/ directory.
+- Supporting manifests and schema are in manifest/.
+- Implementation-related content and upstream dependencies are in lib/.
+- Deployment and runnable examples are in example/.
 
-Put the documents in this directory with bulleted list in a bulleted list in `README.md` in this directory (`/docs/`).
+## Current State
 
-Put diagrams (ideally PNG with encapsulated draw.io source) in the `images/` sub-directory.
+The Phase 1 migration establishes template-compatible scaffolding:
 
-Other types of content can be put in sub-directories of this directory, and linked in the Markdown text.
+- CI workflows for lint/render/docs.
+- Rendering support in .render/.
+- Lint support in .lint/.
+- Repository metadata via spec.yml and zensical.toml.
 
-Set the repo name used to get the Lint and Render status in the top-level `README.md` (four changes needed).
+## Next Documentation Steps
 
-Set the value of `amwa_id` in `.render/_config.yml` to the AMWA-assigned ID.
+- Expand this docs/ tree with architecture, requirements, and conformance pages.
+- Integrate key schema and manifest references from manifest/.
+- Keep documentation in this directory as the canonical authored source.

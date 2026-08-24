@@ -3,10 +3,10 @@ theme: jekyll-theme-primer
 spec_server: specs.amwa.tv
 
 # AMWA ID
-amwa_id: IN-TEMPLATE
+amwa_id: IN-JT-DMF-CRM
 
 # Base name for site (typically lower case version of AMWA ID, or the repo name)
-baseurl: /in-template
+baseurl: /jt-dmf-crm
 
 # Which release or branch appears in header links and on the home page
 default_tree: branches/main # alternatively e.g. releases/v1.0
