@@ -1,0 +1,23 @@
+apiVersion: mxl.media.fn/v1alpha1
+kind: MediaFunctionManifestParent
+metadata:
+  name: media-function-router
+  namespace: media
+
+spec:
+  description: Parent manifest that references multiple resource manifests for different media processing scenarios.
+
+  # Combined workload profiles
+  workload_profiles:
+    - name: 4k_processing
+      resource_manifest: manifest/resource_manifest_4k.yaml
+    
+    - name: 3g_processing
+      resource_manifest: manifest/resource_manifest_3g.yaml
+    
+    - name: standard_processing
+      resource_manifest: manifest/resource_manifest_hd.yaml
+
+  
+  # Fallback for unmatched scenarios
+  fallback_manifest: manifest/resource_manifest_default.yaml
