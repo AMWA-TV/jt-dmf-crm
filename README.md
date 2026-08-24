@@ -1,4 +1,4 @@
-# [Work In Progress] JT-DMF CRM Increment Repository
+# \[Work In Progress\] JT-DMF CRM Increment Repository
 
 [![Lint Status](https://github.com/sviengkhou/jt-dmf-crm/workflows/Lint/badge.svg)](https://github.com/sviengkhou/jt-dmf-crm/actions?query=workflow%3ALint)
 [![Render Status](https://github.com/sviengkhou/jt-dmf-crm/workflows/Render/badge.svg)](https://github.com/sviengkhou/jt-dmf-crm/actions?query=workflow%3ARender)

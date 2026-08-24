@@ -18,10 +18,10 @@ This document describes how to build the MXL container image, prepare the benchm
 
 ## Requirements
 
-  - Kind : https://kind.sigs.k8s.io/
-  - helm : https://helm.sh/docs/intro/install/
-  - Kuberntes v1.35 or greater
-  - kubectl : https://kubernetes.io/docs/tasks/tools/
+- Kind : https://kind.sigs.k8s.io/
+- helm : https://helm.sh/docs/intro/install/
+- Kuberntes v1.35 or greater
+- kubectl : https://kubernetes.io/docs/tasks/tools/
 
 ## 1. Benchmark the Host Machine
 
