@@ -1,0 +1,85 @@
+name: Documentation
+
+on:
+  push:
+    branches:
+      - main
+      - publish-* # for testing
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: >-
+          Optional branch or tag to build docs from. Leave empty to build the
+          ref this workflow runs on. Use this to (re)build docs for historical
+          tags whose own copy of this workflow predates workflow_dispatch.
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      # Target on the AMWA web server. During zensical evaluation we publish
+      # under /new/ so we don't overwrite the current production site.
+      SPEC_SERVER: specs.amwa.tv
+      SITE_NAME: in-template
+    steps:
+      # Always check out the ref that triggered the run (or main, for dispatch)
+      # so we get the current workflow infrastructure (.github/scripts, etc.).
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      # If the user dispatched with a specific ref, overlay only the docs
+      # sources from that ref. We keep main's .github/ so prepare-docs.sh
+      # exists even when building old tags.
+      - name: Overlay docs sources from selected ref
+        if: ${{ inputs.ref != '' }}
+        env:
+          INPUT_REF: ${{ inputs.ref }}
+        run: |
+          git checkout "${INPUT_REF}" -- docs/ README.md
+
+      # Decide which ref name to use for URL rewriting in prepare-docs.sh.
+      # For dispatched runs with an input, use that; otherwise fall back to
+      # the triggering ref.
+      - name: Determine build ref
+        env:
+          INPUT_REF: ${{ inputs.ref }}
+        run: |
+          if [[ -n "${INPUT_REF}" ]]; then
+            BUILD_REF="${INPUT_REF}"
+          else
+            BUILD_REF="${GITHUB_REF_NAME}"
+          fi
+          echo "BUILD_REF=${BUILD_REF}" >> "$GITHUB_ENV"
+          echo "Building docs for ref: ${BUILD_REF}"
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: 3.x
+
+      - run: pip install zensical
+
+      - name: Prepare docs/ tree for site build
+        run: ./.github/scripts/prepare-docs.sh
+
+      - run: zensical build --clean
+
+      - name: Install lychee
+        run: sudo snap install lychee
+
+      - name: Check for broken links with lychee
+        continue-on-error: true
+        run: lychee --root-dir ./site --verbose --no-progress --accept '100..=103,200..=299,403' --accept-timeouts './site/**/*.html'
+
+      - name: Upload site to AMWA web server
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+        run: ./.github/scripts/upload-site.sh

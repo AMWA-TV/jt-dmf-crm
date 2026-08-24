@@ -1,0 +1,8 @@
+*#
+*.swp
+*~
+.DS_Store
+site/
+
+# Generated from README.md by .github/scripts/prepare-docs.sh at build time.
+docs/index.md
