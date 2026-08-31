@@ -11,7 +11,6 @@ spec:
   flow:
     label: "studio-anc-1"
 
-
   # Media input specifications
   inputs:
     - ancillary:
@@ -22,30 +21,30 @@ spec:
 
   # Media output specifications
   outputs:
-    ancillary:
+    - ancillary:
       format:
         data:
           media_type: video/smpte291
           grain_rate: "60"
 
-  args:  # All arguments that are relevant for the media function, and can be used for resources utilization should be included here.
+  args: # All arguments that are relevant for the media function, and can be used for resources utilization should be included here.
     - media_type: "smpte291"
     - grain_rate: "60"
 
   # Resource requirements for the media function
   requirements:
     cpu:
-      cpu: "200m"               # Millicores (m): A fractional part of a core. 1 CPU is equal to 1000m. 500m: Half a core (0.5 CPU).100m: One-tenth of a core (0.1 CPU
+      cpu: "200m" # Millicores (m): A fractional part of a core. 1 CPU is equal to 1000m. 500m: Half a core (0.5 CPU).100m: One-tenth of a core (0.1 CPU
       features:
         - null
 
     memory:
       - type: ram
-        size: "4Gi"             # Requests and limits in units as expressed in Kubernetes (e.g., Mi, Gi)
+        size: "4Gi" # Requests and limits in units as expressed in Kubernetes (e.g., Mi, Gi)
         throughput:
           read: "200MBi"
           write: "200MBi"
-          total: "400MBi"       # Total memory bandwidth required (if applicable)
+          total: "400MBi" # Total memory bandwidth required (if applicable)
 
   # host platform capabilities
   reference_platform:
@@ -54,7 +53,7 @@ spec:
         numa_nodes: 2
         number_of_cores: 16
         base_frequency: "2.8GHz"
-        generation: "Emerald Rapids"  # CPU microarchitecture generation (e.g., Skylake, Ice Lake, etc.)
+        generation: "Emerald Rapids" # CPU microarchitecture generation (e.g., Skylake, Ice Lake, etc.)
         # Selected CPU features discovered via NFD or cpuid
         features:
           - AVX512F

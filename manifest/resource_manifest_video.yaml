@@ -30,7 +30,7 @@ spec:
           frame_rate: "25"
   # Media output specifications
   outputs:
-    processed-output:
+    - processed-output:
       format:
         video:
           media_type: video/v210
@@ -38,7 +38,7 @@ spec:
           frame_height: 1080
           frame_rate: "25"
 
-  args:  # All arguments that are relevant for the media function, and can be used for resources utilization should be included here.
+  args: # All arguments that are relevant for the media function, and can be used for resources utilization should be included here.
     - resolution: "1080p"
     - frame_rate: "25fps"
     - format: "v210"
@@ -46,26 +46,25 @@ spec:
   # Resource requirements for the media function
   requirements:
     cpu:
-      cpu: "2000m"              # Millicores (m): A fractional part of a core. 1 CPU is equal to 1000m. 500m: Half a core (0.5 CPU).100m: One-tenth of a core (0.1 CPU
+      cpu: "2000m" # Millicores (m): A fractional part of a core. 1 CPU is equal to 1000m. 500m: Half a core (0.5 CPU).100m: One-tenth of a core (0.1 CPU
       features:
         - null
 
     memory:
       - type: ram
-        size: "4Gi"             # Requests and limits in units as expressed in Kubernetes (e.g., Mi, Gi)
+        size: "4Gi" # Requests and limits in units as expressed in Kubernetes (e.g., Mi, Gi)
         throughput:
           read: "2000MBi"
           write: "4000MBi"
-          total: "6Gi"          # Total memory bandwidth required (if applicable)
+          total: "6Gi" # Total memory bandwidth required (if applicable)
 
-
-  # host platform capabilities
+    # host platform capabilities
     host_capabilities:
       cpu:
         numa_nodes: 2
         number_of_cores: 16
         base_frequency: "2.8GHz"
-        generation: "Emerald Rapids"  # CPU microarchitecture generation (e.g., Skylake, Ice Lake, etc.)
+        generation: "Emerald Rapids" # CPU microarchitecture generation (e.g., Skylake, Ice Lake, etc.)
         # Selected CPU features discovered via NFD or cpuid
         features:
           - AVX512F

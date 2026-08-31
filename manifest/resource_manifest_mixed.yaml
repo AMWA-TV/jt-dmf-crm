@@ -13,21 +13,21 @@ spec:
 
   # Media input specifications
   inputs:
-    primary-feed-video:
+    - primary-feed-video:
       format:
         video:
           media_type: video/v210
           frame_width: 1920
           frame_height: 1080
           frame_rate: "25"
-    primary-feed-audio:
+    - primary-feed-audio:
       format:
         audio:
           media_type: audio/float32
           sample_rate: 48000
           channel_count: 2
-            
-    secondary-feed:
+
+    - secondary-feed:
       format:
         video:
           media_type: video/v210
@@ -36,38 +36,38 @@ spec:
           frame_rate: "25"
   # Media output specifications
   outputs:
-    processed-output-video:
+    - processed-output-video:
       format:
         video:
           media_type: video/v210
           frame_width: 1920
           frame_height: 1080
           frame_rate: "25"
-    processed-output-audio:
+    - processed-output-audio:
       format:
         audio:
           media_type: audio/float32
           sample_rate: 48000
           channel_count: 1
-           
+
   # Resource requirements for the media function
   requirements:
     compute:
-      cpu: "2000m"                  # Millicores (m): A fractional part of a core. 1 CPU is equal to 1000m. 500m: Half a core (0.5 CPU).100m: One-tenth of a core (0.1 CPU).
-      cpu_class: "performance"      # driver-defined tier (e.g., latency|balanced|performance)
-      memory: "4Gi"                 # Requests and limits in units as expressed in Kubernetes (e.g., Mi, Gi)
+      cpu: "2000m" # Millicores (m): A fractional part of a core. 1 CPU is equal to 1000m. 500m: Half a core (0.5 CPU).100m: One-tenth of a core (0.1 CPU).
+      cpu_class: "performance" # driver-defined tier (e.g., latency|balanced|performance)
+      memory: "4Gi" # Requests and limits in units as expressed in Kubernetes (e.g., Mi, Gi)
 
   # NEW: host platform capabilities (inventory/hints for driver-side placement logic)
   reference_platform:
     host_capabilities:
       cpu:
-        generation: "Skylake"  # CPU microarchitecture generation (e.g., Skylake, Ice Lake, etc.)
+        generation: "Skylake" # CPU microarchitecture generation (e.g., Skylake, Ice Lake, etc.)
         # Selected CPU features discovered via NFD or cpuid
         features:
           - AVX512F
           - AVX512DQ
           - SGX
-  
+
       network:
         - name: eth0
           bandwidth:
@@ -77,7 +77,7 @@ spec:
             output:
               min: 1000Mb/s
               max: 2500Mb/s
-          features: 
+          features:
             - jumbo_frames
             - rdma
 
@@ -93,11 +93,10 @@ spec:
             - vlan_support
             - link_aggregation
 
-
       gpu:
         - name: gpu_0
           generation: Kepler
-          memory: 
+          memory:
             min: 16GB
             max: 32GB
           compute_units: # some arbitrary unit of compute capability
@@ -132,5 +131,5 @@ spec:
             throughput:
               read: 2000MB/s
               write: 1800MB/s
-            latency: 100us  # average access latency
-            iops: 100000    # input/output operations per second
+            latency: 100us # average access latency
+            iops: 100000 # input/output operations per second
