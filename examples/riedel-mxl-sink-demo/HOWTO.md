@@ -136,7 +136,7 @@ docker exec dra-memory-driver-cluster-worker sh -c "cd /dev/shm && mkdir mxl && 
 Start the demo:
 
 ```bash
-cd <DEMO_DIR>/jt-dmf-crm/example/riedel-mxl-sink-demo/kubernetes/
+cd <DEMO_DIR>/jt-dmf-crm/examples/riedel-mxl-sink-demo/kubernetes/
 kubectl apply --filename=kubernetes_mxl_player.yaml
 kubectl apply --filename=kubernetes_mxl_sink.yaml
 ```
@@ -144,7 +144,7 @@ kubectl apply --filename=kubernetes_mxl_sink.yaml
 Delete the demo:
 
 ```bash
-cd <DEMO_DIR>/jt-dmf-crm/example/riedel-mxl-sink-demo/kubernetes/
+cd <DEMO_DIR>/jt-dmf-crm/examples/riedel-mxl-sink-demo/kubernetes/
 kubectl delete --filename=kubernetes_mxl_player.yaml
 kubectl delete --filename=kubernetes_mxl_sink.yaml
 ```
@@ -195,7 +195,7 @@ Measure throughput with `mxl-sink` running:
 Stop `mxl-sink` and run the measurement again with the producers only:
 
 ```bash
-kubectl delete --filename=<DEMO_DIR>/jt-dmf-crm/example/riedel-mxl-sink-demo/kubernetes/kubernetes_mxl_sink.yaml
+kubectl delete --filename=<DEMO_DIR>/jt-dmf-crm/examples/riedel-mxl-sink-demo/kubernetes/kubernetes_mxl_sink.yaml
 ./bin/pcm-memory -i=10 -csv
 ```
 

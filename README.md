@@ -74,4 +74,4 @@ The CRM manifest does not prescribe how an orchestration platform must be implem
 - documentation/: Supporting/legacy background material.
 - manifest/: Resource manifests and schema.
 - lib/: Code and submodules, including lib/mxl.
-- example/: Runtime examples and deployment assets.
+- examples/: Runtime examples and deployment assets.
