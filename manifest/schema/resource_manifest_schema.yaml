@@ -16,7 +16,7 @@ properties:
   kind:
     type: string
     const: MxlMediaFunctionParameters
-    description: Type of Kubernetes-like resource
+    description: Type of resource
 
   metadata:
     type: object
@@ -35,7 +35,7 @@ properties:
             type: string
       namespace:
         type: string
-        description: Kubernetes namespace
+        description: Namespace of the resource
 
   spec:
     type: object
@@ -88,37 +88,39 @@ properties:
               type: "null"
 
       outputs:
-        type: object
-        description: Media output specifications
-        patternProperties:
-          "^.*$":
-            type: object
-            properties:
-              format:
-                type: object
-                properties:
-                  video:
-                    type: object
-                    properties:
-                      media_type:
-                        type: string
-                      frame_width:
-                        type: integer
-                        minimum: 1
-                      frame_height:
-                        type: integer
-                        minimum: 1
-                      frame_rate:
-                        type: string
-                  audio:
-                    type: object
-                    properties:
-                      media_type:
-                        type: string
-                      sample_rate:
-                        type: integer
-                      channels:
-                        type: integer
+        type: array
+        description: Media input specifications
+        items:
+          type: object
+          properties:
+            format:
+              type: object
+              properties:
+                video:
+                  type: object
+                  properties:
+                    media_type:
+                      type: string
+                    frame_width:
+                      type: integer
+                      minimum: 1
+                    frame_height:
+                      type: integer
+                      minimum: 1
+                    frame_rate:
+                      type: string
+                audio:
+                  type: object
+                  properties:
+                    media_type:
+                      type: string
+                    sample_rate:
+                      type: integer
+                    channels:
+                      type: integer
+          patternProperties:
+            "^(processed-output|.*-output)$":
+              type: "null"
       args:
         type: array
         items:
@@ -134,7 +136,7 @@ properties:
               cpu:
                 type: string
                 pattern: "^[0-9]+(m|\\.[0-9]+)?$"
-                description: CPU in Kubernetes format (millicores)
+                description: CPU in Kubernetes like format (millicores)
               features:
                 type: array
                 items:
@@ -153,7 +155,7 @@ properties:
                 size:
                   type: string
                   pattern: "^[0-9]+(Mi|Gi|Ti)$"
-                  description: Memory size in Kubernetes format
+                  description: Memory size in Kubernetes like format
                 throughput:
                   type: object
                   properties:

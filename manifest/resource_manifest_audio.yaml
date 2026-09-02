@@ -27,17 +27,16 @@ spec:
           sample_rate: 48000
           channel_count: 2
 
-
   # Media output specifications
   outputs:
-    processed-output:
+    - processed-output:
       format:
         audio:
           media_type: audio/float32
           sample_rate: 48000
           channel_count: 2
 
-  args:  # All arguments that are relevant for the media function, and can be used for resources utilization should be included here.
+  args: # All arguments that are relevant for the media function, and can be used for resources utilization should be included here.
     - media_type: "float32"
     - sample_rate: "48kHz"
     - channel_count: "2"
@@ -51,20 +50,19 @@ spec:
 
     memory:
       - type: ram
-        size: "4Gi"         # Requests and limits in units as expressed in Kubernetes (e.g., Mi, Gi)
+        size: "4Gi" # Requests and limits in units as expressed in Kubernetes (e.g., Mi, Gi)
         throughput:
           read: "400MBi"
           write: "400MBi"
-          total: "800MBi"   # Total memory bandwidth required (if applicable)
+          total: "800MBi" # Total memory bandwidth required (if applicable)
 
-
-  # host platform capabilities
+    # host platform capabilities
     host_capabilities:
       cpu:
         numa_nodes: 2
         number_of_cores: 16
         base_frequency: "2.8GHz"
-        generation: "Emerald Rapids"  # CPU microarchitecture generation (e.g., Skylake, Ice Lake, etc.)
+        generation: "Emerald Rapids" # CPU microarchitecture generation (e.g., Skylake, Ice Lake, etc.)
         # Selected CPU features discovered via NFD or cpuid
         features:
           - AVX512F
