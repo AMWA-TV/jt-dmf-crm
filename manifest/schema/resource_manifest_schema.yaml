@@ -16,7 +16,7 @@ properties:
   kind:
     type: string
     const: MxlMediaFunctionParameters
-    description: Type of Kubernetes-like resource
+    description: Type of resource
 
   metadata:
     type: object
@@ -35,7 +35,7 @@ properties:
             type: string
       namespace:
         type: string
-        description: Kubernetes namespace
+        description: Namespace of the resource
 
   spec:
     type: object
@@ -136,7 +136,7 @@ properties:
               cpu:
                 type: string
                 pattern: "^[0-9]+(m|\\.[0-9]+)?$"
-                description: CPU in Kubernetes format (millicores)
+                description: CPU in Kubernetes like format (millicores)
               features:
                 type: array
                 items:
@@ -155,7 +155,7 @@ properties:
                 size:
                   type: string
                   pattern: "^[0-9]+(Mi|Gi|Ti)$"
-                  description: Memory size in Kubernetes format
+                  description: Memory size in Kubernetes like format
                 throughput:
                   type: object
                   properties:
