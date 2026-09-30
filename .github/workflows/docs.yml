@@ -1,0 +1,33 @@
+name: Documentation
+run-name: ${{ case(github.event_name == 'push', '', format('Documentation - {0}', inputs.ref || github.ref_name)) }}
+
+on:
+  push:
+    branches:
+      - main
+      - 'publish-*'
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Optional branch or tag to rebuild
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+concurrency:
+  group: amwa-documentation-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  docs:
+    uses: AMWA-TV/amwa-spec-docs/.github/workflows/docs.yml@main
+    with:
+      versioned: false
+      site-name: in-003
+      public-docs-root: https://specs.amwa.tv/new/in-003
+      source-ref: ${{ inputs.ref || github.ref_name }}
+      # Pin this to a released toolkit tag or commit SHA once available.
+      toolkit-ref: main
+    secrets: inherit

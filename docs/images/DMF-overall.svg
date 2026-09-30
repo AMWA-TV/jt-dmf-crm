@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="773" height="515" viewBox="0 0 773 515" role="img" aria-labelledby="title desc">
+  <title id="title">Media platform architecture</title>
+  <desc id="desc">Layered architecture diagram showing application, media function, container, and host platform relationships with orchestration and monitoring.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 8 4 L 0 8 z" fill="#4f4f4f"/>
+    </marker>
+    <marker id="arrowSmall" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 8 4 L 0 8 z" fill="#777"/>
+    </marker>
+    <style>
+      .box { fill: #ffffff; stroke: #5a5a5a; stroke-width: 1.1; }
+      .label { font-family: Arial, Helvetica, sans-serif; font-size: 7px; fill: #1f1f1f; text-anchor: middle; }
+      .layer-label { font-family: Arial, Helvetica, sans-serif; font-size: 8px; fill: #202020; }
+      .connector { stroke: #a6a6a6; stroke-width: 1; fill: none; }
+      .relationship { stroke: #777; stroke-width: .9; fill: none; }
+      .multiplicity { font-family: Arial, Helvetica, sans-serif; font-size: 6px; fill: #333; }
+      .column-label { font-family: Arial, Helvetica, sans-serif; font-size: 7px; fill: #222; text-anchor: middle; }
+    </style>
+  </defs>
+
+  <rect width="773" height="515" fill="#fff"/>
+
+  <!-- Layer boundaries -->
+  <g class="connector" stroke-dasharray="6 4">
+    <path d="M 163 90 H 536"/>
+    <path d="M 163 163 H 536"/>
+    <path d="M 159 261 H 536"/>
+    <path d="M 159 325 H 536"/>
+    <path d="M 159 399 H 536"/>
+    <path d="M 159 465 H 536"/>
+  </g>
+
+  <!-- Layer labels -->
+  <g class="layer-label">
+    <text x="83" y="91">Application and UI</text>
+    <text x="83" y="199">Media Functions</text>
+    <text x="83" y="367">Container Platform</text>
+    <text x="87" y="434">Host Platform</text>
+  </g>
+
+  <!-- Relationships in the left-hand hierarchy -->
+  <g class="relationship" marker-end="url(#arrowSmall)">
+    <path d="M 238 110 V 71"/>
+    <path d="M 238 178 V 151"/>
+    <path d="M 238 349 V 218"/>
+  </g>
+  <g class="multiplicity">
+    <text x="243" y="82">1</text>
+    <text x="243" y="101">n</text>
+    <text x="243" y="159">1</text>
+    <text x="243" y="172">n</text>
+    <text x="243" y="227">1</text>
+    <text x="243" y="342">n</text>
+  </g>
+
+  <!-- Main workload/application boxes -->
+  <g>
+    <rect class="box" x="205.5" y="30.5" width="65.5" height="40" rx="2"/>
+    <text class="label" x="238.25" y="52">Media Workload</text>
+
+    <rect class="box" x="205.5" y="110" width="65.5" height="40" rx="2"/>
+    <text class="label" x="238.25" y="132">Applications</text>
+
+    <rect class="box" x="205.5" y="178.5" width="65.5" height="40" rx="2"/>
+    <text class="label" x="238.25" y="201">Media Functions</text>
+
+    <rect class="box" x="205.5" y="349" width="65.5" height="40" rx="2"/>
+    <text class="label" x="238.25" y="367">Containers</text>
+    <text class="label" x="238.25" y="376">(Workload)</text>
+  </g>
+
+  <!-- Document-note shapes -->
+  <g>
+    <path d="M 321.5 169.5 H 373.5 V 202.5 L 365 207.5 C 356 202.5 347 207.5 338 202.5 C 332 205.5 327 205 321.5 201.5 Z" fill="#c9e8d1" stroke="#5a5a5a" stroke-width="1.05"/>
+    <text class="label" x="347.5" y="184">Media Function</text>
+    <text class="label" x="347.5" y="193">Descriptor</text>
+
+    <path d="M 321.5 216 H 373.5 V 248.5 L 365 253.5 C 356 248.5 347 253.5 338 248.5 C 332 251.5 327 251 321.5 247.5 Z" fill="#b9d6ef" stroke="#5a5a5a" stroke-width="1.05"/>
+    <text class="label" x="347.5" y="231">Manifests</text>
+    <text class="label" x="347.5" y="240">Schema</text>
+
+    <path d="M 452.5 344 H 504.5 V 376.5 L 496 381.5 C 487 376.5 478 381.5 469 376.5 C 463 379.5 458 379 452.5 375.5 Z" fill="#f2bcbc" stroke="#5a5a5a" stroke-width="1.05"/>
+    <text class="label" x="478.5" y="359">Media Function</text>
+    <text class="label" x="478.5" y="368">Metrics</text>
+
+    <path d="M 452.5 412 H 504.5 V 444.5 L 496 449.5 C 487 444.5 478 449.5 469 444.5 C 463 447.5 458 447 452.5 443.5 Z" fill="#f5e99d" stroke="#5a5a5a" stroke-width="1.05"/>
+    <text class="label" x="478.5" y="427">System</text>
+    <text class="label" x="478.5" y="436">Specifications</text>
+  </g>
+
+  <!-- Operator and processing workload -->
+  <g>
+    <rect class="box" x="326" y="271.5" width="53" height="40" rx="2"/>
+    <path d="M 331 276 V 307" stroke="#929292" stroke-width=".8"/>
+    <path d="M 335 276 V 307" stroke="#929292" stroke-width=".8"/>
+    <text class="label" x="355" y="294">Operator(s)</text>
+
+    <rect class="box" x="326" y="344" width="53" height="46" rx="2"/>
+    <path d="M 331 349 V 385" stroke="#929292" stroke-width=".8"/>
+    <path d="M 335 349 V 385" stroke="#929292" stroke-width=".8"/>
+    <text class="label" x="355" y="362">Media</text>
+    <text class="label" x="355" y="371">Processing</text>
+    <text class="label" x="355" y="380">Workload</text>
+  </g>
+
+  <path class="relationship" d="M 352.5 312 V 344" marker-end="url(#arrowSmall)"/>
+
+  <!-- Manifests -->
+  <g>
+    <rect x="452.5" y="271.5" width="52" height="40" rx="2" fill="#b9d6ef" stroke="#5a5a5a" stroke-width="1.05"/>
+    <text class="label" x="478.5" y="294">Manifests</text>
+  </g>
+
+  <!-- Orchestration and monitoring columns -->
+  <g>
+    <rect x="553.5" y="51" width="52" height="421" rx="2" fill="#fff" stroke="#666" stroke-width="1.05"/>
+    <path d="M 558 52.5 V 470.5 M 601.5 52.5 V 470.5" stroke="#9a9a9a" stroke-width=".8" fill="none"/>
+    <text class="column-label" x="579.5" y="263">Orchestration</text>
+
+    <rect x="613" y="51" width="53" height="421" rx="2" fill="#fff" stroke="#666" stroke-width="1.05"/>
+    <path d="M 617.5 52.5 V 470.5 M 661.5 52.5 V 470.5" stroke="#9a9a9a" stroke-width=".8" fill="none"/>
+    <text class="column-label" x="639.5" y="263">Monitoring</text>
+  </g>
+
+  <!-- Cross-layer interfaces -->
+  <g class="relationship" marker-end="url(#arrowSmall)">
+    <path d="M 373.5 188 H 553.5"/>
+    <path d="M 373.5 235 H 553.5"/>
+    <path d="M 553.5 291.5 H 504.5"/>
+    <path d="M 452.5 291.5 H 379"/>
+    <path d="M 504.5 363.5 H 553.5"/>
+    <path d="M 504.5 431.5 H 553.5"/>
+  </g>
+
+  <!-- Fine baseline visible in the source image -->
+  <path d="M 8 508.5 H 768" stroke="#d4dbe2" stroke-width="1"/>
+</svg>
