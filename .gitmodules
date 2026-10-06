@@ -1,3 +1,7 @@
 [submodule "lib/mxl"]
 	path = lib/mxl
 	url = https://github.com/dmf-mxl/mxl.git
+[submodule "examples/Media-Transport-Library"]
+	path = examples/Media-Transport-Library
+	url = https://github.com/OpenVisualCloud/Media-Transport-Library.git
+	branch = CRM-k8s-refrence-recipe
