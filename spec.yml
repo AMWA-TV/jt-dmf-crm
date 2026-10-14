@@ -1,0 +1,10 @@
+amwa_id: JT-DMF-CRM
+url: https://specs.amwa.tv/jt-dmf-crm
+name: JT-DMF Compute Resource Management
+status: Work In Progress
+repo_name: jt-dmf-crm
+alt_repo_name: null
+repo_url: https://github.com/AMWA-TV/jt-dmf-crm
+releases: null
+default_branch: main
+show_in_index: false

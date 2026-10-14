@@ -4,7 +4,7 @@
 The JT-DMF Compute Resource Management (CRM) project provides vendors with a platform-agnostic way to declare the resources required by a Media Function.
 A CRM manifest describes the compute, memory, storage, networking, accelerator, and other infrastructure resources that a Media Function needs to operate safely and predictably. The manifest is independent of any specific hardware platform, cloud provider, container runtime, or orchestration technology.
 ## Architecture & System Model
-CRM links design-time resource specification with runtime orchestration, deployment, and operational monitoring across four primary architectural tiers as presented in the [JT-DMF-High-Level.pdf](./documentation/JT-DMF-High-Level.pdf):
+CRM links design-time resource specification with runtime orchestration, deployment, and operational monitoring across four primary architectural tiers as presented in the [JT-DMF-High-Level.pdf](https://github.com/AMWA-TV/jt-dmf-crm/blob/main/documentation/JT-DMF-High-Level.pdf):
 
 **Application and UI Tier:** High-level Media Workloads composed of one or more modular Applications.
 

@@ -1,0 +1,34 @@
+name: Documentation
+run-name: ${{ case(github.event_name == 'push', '', format('Documentation - {0}', inputs.ref || github.ref_name)) }}
+
+on:
+  push:
+    branches:
+      - main
+      - 'publish-*'
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Optional branch or tag to rebuild
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+concurrency:
+  group: amwa-documentation-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  docs:
+    uses: AMWA-TV/amwa-spec-docs/.github/workflows/docs.yml@main
+    with:
+      versioned: false
+      submodules: true
+      preserve-example-readme: true
+      site-name: jt-dmf-crm
+      public-docs-root: https://specs.amwa.tv/new/jt-dmf-crm
+      source-ref: ${{ inputs.ref || github.ref_name }}
+      toolkit-ref: main
+    secrets: inherit
