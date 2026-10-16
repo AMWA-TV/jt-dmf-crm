@@ -1,0 +1,10 @@
+amwa_id: IN-003
+url: https://specs.amwa.tv/in-003
+name: Compute Resource Management Manifest and Examples
+status: Work In Progress
+repo_name: in-003
+alt_repo_name: null
+repo_url: https://github.com/AMWA-TV/in-003
+releases: null
+default_branch: main
+show_in_index: false

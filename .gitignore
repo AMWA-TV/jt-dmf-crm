@@ -1,0 +1,13 @@
+*#
+*.swp
+*~
+.DS_Store
+site/
+
+# Generated from repository-root sources by .github/scripts/prepare-docs.sh at build time.
+docs/index.md
+docs/example/
+docs/manifest/
+
+# Local Zensical rendering output
+.render-zensical/
