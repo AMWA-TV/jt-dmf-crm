@@ -1,7 +1,7 @@
 [project]
 site_name = "JT-DMF Compute Resource Management"
 site_description = "AMWA JT-DMF Compute Resource Management manifests, schemas, and deployment examples"
-site_url = "https://specs.amwa.tv/new/jt-dmf-crm"
+site_url = "https://specs.amwa.tv/jt-dmf-crm"
 repo_name = "AMWA-TV/jt-dmf-crm"
 repo_url = "https://github.com/AMWA-TV/jt-dmf-crm"
 extra_css = ["stylesheets/extra.css"]

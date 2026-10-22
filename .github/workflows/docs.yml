@@ -28,7 +28,8 @@ jobs:
       submodules: true
       preserve-example-readme: true
       site-name: jt-dmf-crm
-      public-docs-root: https://specs.amwa.tv/new/jt-dmf-crm
+      public-docs-root: https://specs.amwa.tv/jt-dmf-crm
+      upload-prefix: ''
       source-ref: ${{ inputs.ref || github.ref_name }}
       toolkit-ref: main
     secrets: inherit
