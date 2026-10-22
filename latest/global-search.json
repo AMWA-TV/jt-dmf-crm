@@ -4,103 +4,103 @@
   "documents": [
     {
       "title": "JT-DMF Compute Resource Management",
-      "url": "https://specs.amwa.tv/new/in-003/latest/Overview/",
+      "url": "https://specs.amwa.tv/in-003/latest/Overview/",
       "text": "JT-DMF Compute Resource Management JT-DMF Compute Resource Management Architecture & System Model Purpose of This Repository Intended Workflow Benefits Scope Repository Layout Real-World Deployment Patterns Basic Media Functions involve: More complex Media Functions can have: Proposed Domain Model Media Function Media Function Context Media Function Config Level Trigger Pattern and Desired State Reconciliation JT-DMF Compute Resource Management - IN-003 Skip to content JT-DMF Compute Resource Management The JT-DMF Compute Resource Management (CRM) project provides vendors with a platform-agnostic way to declare the resources required by a Media Function. A CRM manifest describes the compute, memory, storage, networking, accelerator, and other infrastructure resources that a Media Function needs to operate safely and predictably. The manifest is independent of any specific hardware platform, cloud provider, container runtime, or orchestration technology. Architecture & System Model CRM links design-time resource specification with runtime orchestration, deployment, and operational monitoring across four primary architectural tiers: Application and UI Tier: High-level Media Workloads composed of one or more modular Applications. Media Functions Tier: Standardizes core logic into discrete Media Functions. Defines the overall Media Function Descriptor and the primary Manifests Schema (the contract definition). Container Platform Tier: Receives active Manifests consumed by dedicated Operator(s) to instantiate the Media Processing Workload . As the workload executes, it emits Media Function Metrics to monitor real-time performance. Host Platform Tier: Exposes underlying physical hardware capabilities via System Specifications to inform scheduling decisions. Orchestration & Monitoring: Cross-tier services responsible for evaluating host specifications against manifest requirements, selecting execution environments, and tracking runtime metrics. Purpose of This Repository The purpose of this repository is to define and demonstrate a standardized approach for creating and using CRM manifests throughout the lifecycle of a Media Function. It provides examples and guidance for: Profiling a Media Function Observing how the Media Function uses compute, memory, storage, network bandwidth, and specialized hardware resources under representative operating conditions. Benchmarking its performance Measuring the relationship between allocated resources, workload characteristics, performance, and operational limits. Producing a CRM manifest Translating the profiling and benchmarking results into a portable, machine-readable declaration of the resources required by the Media Function. Deploying the Media Function Demonstrating how an orchestration layer can consume the manifest, evaluate available infrastructure, select an appropriate execution environment, and deploy the Media Function with the required resources. Intended Workflow The repository supports the following workflow: Media Function | v Profile and Benchmark | v Determine Resource Requirements | v Produce CRM Manifest | v Orchestration Layer | v Validate, Place, and Deploy | v Monitoring This approach allows resource requirements to be based on measured behavior rather than assumptions or platform-specific deployment configurations. Benefits Using a published CRM manifest enables: - Vendors to describe resource requirements independently of the target platform. - Orchestrators to make informed placement and scheduling decisions. - Media Functions to be deployed consistently across heterogeneous infrastructure. - Infrastructure providers to validate resource availability before deployment. - Operators to achieve more predictable performance and resource utilization. - The media industry to improve interoperability between Media Functions, platforms, and orchestration systems. Scope This repository contains: - CRM manifest definitions and supporting models. - Example resource manifests for Media Functions. - Examples of profiling and benchmarking methodologies. - Guidance for translating benchmark results into resource declarations. - Examples showing how an orchestration layer can consume a CRM manifest. - Demonstrations of manifest-based validation, placement, and deployment. The CRM manifest does not prescribe how an orchestration platform must be implemented. Instead, it provides a common resource description that different orchestration systems can interpret and map to their own infrastructure and deployment models. Repository Layout docs/: Documentation and supporting background material. manifest/: Resource manifests and schema. lib/: Code and submodules, including lib/mxl. examples/: Runtime examples and deployment assets. Real-World Deployment Patterns Media Functions are developed by many vendors, who leverage different deployment patterns. The DMF architecture needs to support a wide range of these, minimizing the additional development cost for vendors to bring their products to DMF platforms. Basic Media Functions involve: Single pod (quite commonly, and in the limit, a single container) per Media Function instance No Media Function-specific shared services More complex Media Functions can have: Either/or: Multiple pods per Media Function instance [1..N] Multiple Media Function instances per pod, where a logical Media Function instance is an independently configured session/channel/task, with some upper bounds on the number supported by each deployed pod [N..1] Media Function kind-specific shared context and services (for example, asset storage) Media Function kind-specific cluster-wide configuration and services (for example, site license server) Proposed Domain Model Media Function Represents a particular configured instance or session of a well-defined unit of functionality that produces and/or consumes a tightly coupled group of one or more live media streams. The particular vendor/product Media Function specification defines the in",
       "repository": "AMWA-TV/jt-dmf-crm"
     },
     {
       "title": "MXL Sink Demo HOWTO",
-      "url": "https://specs.amwa.tv/new/in-003/latest/examples/riedel-mxl-sink-demo/HOWTO/",
+      "url": "https://specs.amwa.tv/in-003/latest/examples/riedel-mxl-sink-demo/HOWTO/",
       "text": "MXL Sink Demo HOWTO MXL Sink Demo HOWTO Goal of This Example Requirements 1. Benchmark the Host Machine 1.1 CPU Information 1.2 Memory Capacity 1.3 Memory Throughput with Intel MLC 2. Build the MXL Container Image 3. Prepare the kind Cluster and DRA Driver 3.1 Clone the DRA Driver Repository 3.2 Build the DRA Driver Image 3.3 Start the kind Kubernetes Cluster 3.4 Activate the DRA Driver 4. Start the MXL DRA Demo 4.1 Copy the Flow Configuration to the Worker Node 4.2 Load the Container Image into the Worker Node 4.3 Create the Shared Memory Directory 4.4 Useful Demo Commands 5. Profile the Application 5.1 CPU Profiling 5.2 Memory Usage Profiling 5.3 Memory Throughput with Intel PCM MXL Sink Demo HOWTO - IN-003 Skip to content MXL Sink Demo HOWTO Goal of This Example This example shows how to derive a media-function resource manifest from host benchmarking and application profiling data, then use that information in a Kubernetes deployment. The workflow demonstrated in this directory is: Benchmark the reference host to capture capabilities such as CPU topology, installed memory, and memory throughput. Profile the mxl-gst-sink media function on that host to measure its CPU, memory, and memory-throughput requirements. Convert those measurements into a media-function resource manifest, such as manifest/resource_manifest_mxl_sink.yaml . Use a Kubernetes example with Dynamic Resource Allocation (DRA) to translate the manifest into standard pod resource requests plus a custom memory-throughput resource claim. In short, the goal is to show how benchmark and profiling data can be turned into a YAML resource manifest and then consumed by a Kubernetes deployment for placement and resource allocation. This document describes how to build the MXL container image, prepare the benchmarking environment, deploy the demo on a kind cluster with the memory-throughput DRA driver, and profile the running application. Requirements Kind: https://kind.sigs.k8s.io/ helm: https://helm.sh/docs/intro/install/ Kubernetes v1.35 or greater kubectl: https://kubernetes.io/docs/tasks/tools/ 1. Benchmark the Host Machine 1.1 CPU Information Collect CPU details: lscpu 1.2 Memory Capacity Collect memory topology and installed DIMM information: lsmem sudo dmidecode --type memory 1.3 Memory Throughput with Intel MLC Download Intel MLC: Intel MLC Download Install the software: mkdir mlc tar -xvf mlc_v3.12.tgz -C ./mlc Run the memory throughput test: cd mlc/Linux ./mlc 2. Build the MXL Container Image Clone the repository and build the demo image: git clone --recursive https://github.com/AMWA-TV/jt-dmf-crm.git cd jt-dmf-crm ## Ensure to checkout the right branch here for the demo. cd lib/mxl docker build --network = host -t mxldemo:v1 -f examples/Dockerfile . 3. Prepare the kind Cluster and DRA Driver 3.1 Clone the DRA Driver Repository git clone -b fork/main https://github.com/dtrembl/mem-throughput-dra-driver.git cd mem-throughput-dra-driver 3.2 Build the DRA Driver Image Run this step only if the driver image is not already available: ./demo/build-driver.sh 3.3 Start the kind Kubernetes Cluster ./demo/clusters/kind/create-cluster.sh 3.4 Activate the DRA Driver helm upgrade -i \\ --create-namespace \\ --namespace dra-memory-driver \\ dra-memory-driver \\ deployments/helm/dra-memory-driver 4. Start the MXL DRA Demo 4.1 Copy the Flow Configuration to the Worker Node cd <DEMO_DIR>/jt-dmf-crm docker cp lib/mxl/lib/tests/data dra-memory-driver-cluster-worker:/root 4.2 Load the Container Image into the Worker Node kind load docker-image mxldemo:v1 --name dra-memory-driver-cluster 4.3 Create the Shared Memory Directory Create the /dev/shm/mxl directory and allow all users to write to it: docker exec dra-memory-driver-cluster-worker sh -c \"cd /dev/shm && mkdir mxl && chmod 777 mxl\" 4.4 Useful Demo Commands Start the demo: cd <DEMO_DIR>/jt-dmf-crm/examples/riedel-mxl-sink-demo/kubernetes/ kubectl apply --filename = kubernetes_mxl_player.yaml kubectl apply --filename = kubernetes_mxl_sink.yaml Delete the demo: cd <DEMO_DIR>/jt-dmf-crm/examples/riedel-mxl-sink-demo/kubernetes/ kubectl delete --filename = kubernetes_mxl_player.yaml kubectl delete --filename = kubernetes_mxl_sink.yaml Delete the kind cluster when you are done: cd <DEMO_DIR>/mem-throughput-dra-driver ./demo/clusters/kind/delete-cluster.sh 5. Profile the Application Before profiling, start the demo by following the commands in the previous section. 5.1 CPU Profiling sudo perf stat -p $( ps aux | grep '[m]xl-gst-sink' | awk '{print $2}' ) 5.2 Memory Usage Profiling cat /proc/ $( ps aux | grep '[m]xl-gst-sink' | awk '{print $2}' ) /status 5.3 Memory Throughput with Intel PCM Set up Intel PCM: git clone --recursive https://github.com/intel/pcm.git cd pcm mkdir build cd build cmake .. cmake --build . sudo modprobe msr Measure throughput with mxl-sink running: ./bin/pcm-memory -i = 10 -csv Stop mxl-sink and run the measurement again with the producers only: kubectl delete --filename = <DEMO_DIR>/jt-dmf-crm/examples/riedel-mxl-sink-demo/kubernetes/kubernetes_mxl_sink.yaml ./bin/pcm-memory -i = 10 -csv This completes the benchmark comparison. Back to top",
       "repository": "AMWA-TV/jt-dmf-crm"
     },
     {
       "title": "build_container.sh",
-      "url": "https://specs.amwa.tv/new/in-003/latest/examples/riedel-mxl-sink-demo/build_container/",
+      "url": "https://specs.amwa.tv/in-003/latest/examples/riedel-mxl-sink-demo/build_container/",
       "text": "build_container.sh build_container.sh build_container.sh - IN-003 Skip to content build_container.sh View: Folding Raw Expand all Collapse all Back to top",
       "repository": "AMWA-TV/jt-dmf-crm"
     },
     {
       "title": "kubernetes_mxl_player.yaml",
-      "url": "https://specs.amwa.tv/new/in-003/latest/examples/riedel-mxl-sink-demo/kubernetes/kubernetes_mxl_player/",
+      "url": "https://specs.amwa.tv/in-003/latest/examples/riedel-mxl-sink-demo/kubernetes/kubernetes_mxl_player/",
       "text": "kubernetes_mxl_player.yaml kubernetes_mxl_player.yaml kubernetes_mxl_player.yaml - IN-003 Skip to content kubernetes_mxl_player.yaml View: Folding Raw Expand all Collapse all Back to top",
       "repository": "AMWA-TV/jt-dmf-crm"
     },
     {
       "title": "kubernetes_mxl_sink.yaml",
-      "url": "https://specs.amwa.tv/new/in-003/latest/examples/riedel-mxl-sink-demo/kubernetes/kubernetes_mxl_sink/",
+      "url": "https://specs.amwa.tv/in-003/latest/examples/riedel-mxl-sink-demo/kubernetes/kubernetes_mxl_sink/",
       "text": "kubernetes_mxl_sink.yaml kubernetes_mxl_sink.yaml kubernetes_mxl_sink.yaml - IN-003 Skip to content kubernetes_mxl_sink.yaml View: Folding Raw Expand all Collapse all Back to top",
       "repository": "AMWA-TV/jt-dmf-crm"
     },
     {
       "title": "memory_throughput_resource_slice.yaml",
-      "url": "https://specs.amwa.tv/new/in-003/latest/examples/riedel-mxl-sink-demo/kubernetes/memory_throughput_resource_slice/",
+      "url": "https://specs.amwa.tv/in-003/latest/examples/riedel-mxl-sink-demo/kubernetes/memory_throughput_resource_slice/",
       "text": "memory_throughput_resource_slice.yaml memory_throughput_resource_slice.yaml memory_throughput_resource_slice.yaml - IN-003 Skip to content memory_throughput_resource_slice.yaml View: Folding Raw Expand all Collapse all Back to top",
       "repository": "AMWA-TV/jt-dmf-crm"
     },
     {
       "title": "resource_manifest_mxl_sink.yaml",
-      "url": "https://specs.amwa.tv/new/in-003/latest/examples/riedel-mxl-sink-demo/manifest/resource_manifest_mxl_sink/",
+      "url": "https://specs.amwa.tv/in-003/latest/examples/riedel-mxl-sink-demo/manifest/resource_manifest_mxl_sink/",
       "text": "resource_manifest_mxl_sink.yaml resource_manifest_mxl_sink.yaml resource_manifest_mxl_sink.yaml - IN-003 Skip to content resource_manifest_mxl_sink.yaml View: Folding Raw Expand all Collapse all Back to top",
       "repository": "AMWA-TV/jt-dmf-crm"
     },
     {
       "title": "start.sh",
-      "url": "https://specs.amwa.tv/new/in-003/latest/examples/riedel-mxl-sink-demo/start/",
+      "url": "https://specs.amwa.tv/in-003/latest/examples/riedel-mxl-sink-demo/start/",
       "text": "start.sh start.sh start.sh - IN-003 Skip to content start.sh View: Folding Raw Expand all Collapse all Back to top",
       "repository": "AMWA-TV/jt-dmf-crm"
     },
     {
       "title": "stop.sh",
-      "url": "https://specs.amwa.tv/new/in-003/latest/examples/riedel-mxl-sink-demo/stop/",
+      "url": "https://specs.amwa.tv/in-003/latest/examples/riedel-mxl-sink-demo/stop/",
       "text": "stop.sh stop.sh stop.sh - IN-003 Skip to content stop.sh View: Folding Raw Expand all Collapse all Back to top",
       "repository": "AMWA-TV/jt-dmf-crm"
     },
     {
       "title": "README",
-      "url": "https://specs.amwa.tv/new/in-003/latest/images/",
+      "url": "https://specs.amwa.tv/in-003/latest/images/",
       "text": "README README README - IN-003 Skip to content README This directory is for images used in documentation Back to top",
       "repository": "AMWA-TV/jt-dmf-crm"
     },
     {
       "title": "[Work In Progress] AMWA IN-003: Compute Resource Management Manifest and Examples",
-      "url": "https://specs.amwa.tv/new/in-003/latest/",
+      "url": "https://specs.amwa.tv/in-003/latest/",
       "text": "[Work In Progress] AMWA IN-003: Compute Resource Management Manifest and Examples [Work In Progress] AMWA IN-003: Compute Resource Management Manifest and Examples What does it do? Why does it matter? How does it work? Repository Layout [Work In Progress] AMWA IN-003: Compute Resource Management Manifest and Examples - IN-003 Skip to content [Work In Progress] AMWA IN-003: Compute Resource Management Manifest and Examples This repository holds the source of a work artifact published as an AMWA Increment (IN) from the Advanced Media Workflow Association What does it do? Defines a common, platform-agnostic description of the compute, memory, storage, network, and accelerator resources required by a Media Function. Provides a manifest schema and working examples for expressing those resource requirements in a portable way. Connects profiling, benchmarking, and deployment workflows into a repeatable CRM process. Why does it matter? Media Function workloads need predictable resource allocation across heterogeneous infrastructure. A standardized manifest helps orchestration systems place workloads accurately and validate resource availability. It enables consistent, interoperable resource declarations across vendor implementations and deployment environments. How does it work? The repository defines a resource manifest model and example payloads for Media Functions. It shows how profiling and benchmarking results can be translated into portable declarations of required resources. The resulting manifests can be consumed by orchestration and deployment systems to validate placement and scheduling decisions. This work artifact is published as an AMWA Increment (IN) . Increments are intended to make public the ongoing progress of a working group without locking decisions into a formal specification. While the technical details contained in this repository do not constitute a stable or finalized specification, readers should note that Increments are Draft Specifications as defined in the AMWA IPR Policy. The provisions of the policy apply, including the requirement for early disclosure. You can expect the content to evolve incrementally based on ongoing testing, consensus-building, and community input. Public review is encouraged! Please post an Issue to the Repo to submit questions, feedback, or propose changes. Repository Layout documentation/: Supporting background material. manifest/: Resource manifests and schema. lib/: Code and submodules, including lib/mxl. examples/: Runtime examples and deployment assets. Back to top",
       "repository": "AMWA-TV/jt-dmf-crm"
     },
     {
       "title": "resource_manifest_audio.yaml",
-      "url": "https://specs.amwa.tv/new/in-003/latest/manifest/resource_manifest_audio/",
+      "url": "https://specs.amwa.tv/in-003/latest/manifest/resource_manifest_audio/",
       "text": "resource_manifest_audio.yaml resource_manifest_audio.yaml resource_manifest_audio.yaml - IN-003 Skip to content resource_manifest_audio.yaml View: Folding Raw Expand all Collapse all Back to top",
       "repository": "AMWA-TV/jt-dmf-crm"
     },
     {
       "title": "resource_manifest_data.yaml",
-      "url": "https://specs.amwa.tv/new/in-003/latest/manifest/resource_manifest_data/",
+      "url": "https://specs.amwa.tv/in-003/latest/manifest/resource_manifest_data/",
       "text": "resource_manifest_data.yaml resource_manifest_data.yaml resource_manifest_data.yaml - IN-003 Skip to content resource_manifest_data.yaml View: Folding Raw Expand all Collapse all Back to top",
       "repository": "AMWA-TV/jt-dmf-crm"
     },
     {
       "title": "resource_manifest_mixed.yaml",
-      "url": "https://specs.amwa.tv/new/in-003/latest/manifest/resource_manifest_mixed/",
+      "url": "https://specs.amwa.tv/in-003/latest/manifest/resource_manifest_mixed/",
       "text": "resource_manifest_mixed.yaml resource_manifest_mixed.yaml resource_manifest_mixed.yaml - IN-003 Skip to content resource_manifest_mixed.yaml View: Folding Raw Expand all Collapse all Back to top",
       "repository": "AMWA-TV/jt-dmf-crm"
     },
     {
       "title": "resource_manifest_video.yaml",
-      "url": "https://specs.amwa.tv/new/in-003/latest/manifest/resource_manifest_video/",
+      "url": "https://specs.amwa.tv/in-003/latest/manifest/resource_manifest_video/",
       "text": "resource_manifest_video.yaml resource_manifest_video.yaml resource_manifest_video.yaml - IN-003 Skip to content resource_manifest_video.yaml View: Folding Raw Expand all Collapse all Back to top",
       "repository": "AMWA-TV/jt-dmf-crm"
     },
     {
       "title": "resource_manifest_schema.yaml",
-      "url": "https://specs.amwa.tv/new/in-003/latest/manifest/schema/resource_manifest_schema/",
+      "url": "https://specs.amwa.tv/in-003/latest/manifest/schema/resource_manifest_schema/",
       "text": "resource_manifest_schema.yaml resource_manifest_schema.yaml resource_manifest_schema.yaml - IN-003 Skip to content resource_manifest_schema.yaml View: Folding Raw Expand all Collapse all Back to top",
       "repository": "AMWA-TV/jt-dmf-crm"
     },
     {
       "title": "validate_manifest.py",
-      "url": "https://specs.amwa.tv/new/in-003/latest/manifest/validate_manifest/",
+      "url": "https://specs.amwa.tv/in-003/latest/manifest/validate_manifest/",
       "text": "validate_manifest.py validate_manifest.py validate_manifest.py - IN-003 Skip to content validate_manifest.py View: Folding Raw Expand all Collapse all Back to top",
       "repository": "AMWA-TV/jt-dmf-crm"
     }
