@@ -1,0 +1,29 @@
+{
+  "amwa_id": "IN-003",
+  "url": "https://specs.amwa.tv/in-003",
+  "name": "Compute Resource Management Manifest and Examples",
+  "status": "Work In Progress",
+  "repo_name": "in-003",
+  "alt_repo_name": null,
+  "repo_url": "https://github.com/AMWA-TV/in-003",
+  "releases": null,
+  "default_branch": "main",
+  "show_in_index": false,
+  "intro": {
+    "what_does_it_do": [
+      "Defines a common, platform-agnostic description of the compute, memory, storage, network, and accelerator resources required by a Media Function.",
+      "Provides a manifest schema and working examples for expressing those resource requirements in a portable way.",
+      "Connects profiling, benchmarking, and deployment workflows into a repeatable CRM process."
+    ],
+    "why_does_it_matter": [
+      "Media Function workloads need predictable resource allocation across heterogeneous infrastructure.",
+      "A standardized manifest helps orchestration systems place workloads accurately and validate resource availability.",
+      "It enables consistent, interoperable resource declarations across vendor implementations and deployment environments."
+    ],
+    "how_does_it_work": [
+      "The repository defines a resource manifest model and example payloads for Media Functions.",
+      "It shows how profiling and benchmarking results can be translated into portable declarations of required resources.",
+      "The resulting manifests can be consumed by orchestration and deployment systems to validate placement and scheduling decisions."
+    ]
+  }
+}

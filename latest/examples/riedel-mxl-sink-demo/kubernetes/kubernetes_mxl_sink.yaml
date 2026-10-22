@@ -1,0 +1,72 @@
+# Kubernetes Dynamic Resource Allocation (DRA) Configuration
+# Based on requirements from mxl-gst-sink-1080p30-v210
+# ResourceClaim
+# DRA resource claim
+---
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  namespace: media
+  name: mxl-gst-sink-1080p30-v210-memory-bandwidth-claim-template
+spec:
+  spec:
+    devices:
+      requests:
+      - name: mem
+        exactly:
+          deviceClassName: mem.example.com
+          capacity:
+            requests:
+              mem: "3Gi"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mxl-gst-sink-1080p30-v210
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mxl-gst-sink-1080p30-v210
+  template:
+    metadata:
+      labels:
+        app: mxl-gst-sink-1080p30-v210
+    spec:
+      securityContext:
+        runAsNonRoot: true
+      containers:
+      - name: mxl-gst-sink-1080p30-v210-container
+        image: mxldemo:v1
+        imagePullPolicy: Never
+        volumeMounts:
+            - name: mxl-domain
+              mountPath: /dev/shm/mxl
+        command: ["/usr/bin/mxl-gst-sink"]
+        args: ["-v", "6fbec3b1-1b0f-417d-9059-8b94a47197ed", "5fbec3b1-1b0f-417d-9059-8b94a47197ed", "--domain", "/dev/shm/mxl"]
+        resources:
+          claims:
+            - name: mxl-gst-sink-1080p30-v210-memory-bandwidth-claim
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: [ALL]
+          seccompProfile:
+            type: RuntimeDefault
+          runAsNonRoot: true
+          runAsUser: 1000
+      resources:
+        limits:
+          cpu: "1"
+          memory: "2Gi"
+        requests:
+          cpu: "600m"
+          memory: "2Gi"
+      resourceClaims:
+        - name: mxl-gst-sink-1080p30-v210-memory-bandwidth-claim
+          resourceClaimTemplateName: mxl-gst-sink-1080p30-v210-memory-bandwidth-claim-template
+      volumes:
+        - name: mxl-domain
+          hostPath:
+            path: /dev/shm/mxl # directory location on host
