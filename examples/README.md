@@ -4,13 +4,13 @@ These examples show two complementary ways to deploy and evaluate a JT-DMF Media
 
 ## Riedel MXL sink demo
 
-[riedel-mxl-sink-demo](riedel-mxl-sink-demo)
+[riedel-mxl-sink-demo](riedel-mxl-sink-demo/HOWTO.md)
 
 A small, practical deployment example based on the Riedel MXL sink workflow. Use it to understand the basic container, media-flow and Kubernetes resource setup. It is intended as the quickest path to a working demonstration.
 
 ## MXL Kubernetes CRM reference
 
-[Media-Transport-Library](Media-Transport-Library)
+[Media-Transport-Library](Media-Transport-Library/README.md)
 
 A profiling and benchmarking workflow for an FFmpeg/MXL Media Function. It measures CPU usage, NUMA placement, memory bandwidth, cache behavior, stream density and noisy-neighbor effects, then uses those results to produce and validate a JT-DMF CRM manifest.
 
